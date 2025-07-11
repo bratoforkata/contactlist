@@ -11,7 +11,7 @@ contacts.Add(new Contact("Forka", "444455"));
 ApplicationState state = new ApplicationState();
 
 Dictionary<string, Command> commands = new Dictionary<string, Command>();
-
+//1
 commands.Add("help", new HelpCommand(commands));
 commands.Add("add", new AddCommand(contacts));
 commands.Add("print", new PrintCommand(contacts));
