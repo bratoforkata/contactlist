@@ -20,6 +20,7 @@ commands.Add("edit", new EditCommand(contacts, state));
 commands.Add("delete", new DeleteCommand(contacts));
 commands.Add("exit", new ExitCommand(state));
 commands.Add("clear", new ClearCommand(commands));
+commands.Add("game", new GameCommand(state));
 
 Console.WriteLine(string.Join(", ", commands.Keys));
 
