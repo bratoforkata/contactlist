@@ -14,7 +14,6 @@ namespace ConsoleApp1
         {
             this.contacts = contacts;
         }
-
         protected override void RunCommand(Queue<string> commandQueue)
         {
             bool isFound = false;
@@ -37,7 +36,5 @@ namespace ConsoleApp1
                 Console.WriteLine("added something");
             }
         }
-
-        
     }
 }

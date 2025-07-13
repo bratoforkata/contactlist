@@ -14,7 +14,6 @@ namespace ConsoleApp1
         {
             this.contacts = contacts;
         }
-
         protected override void RunCommand(Queue<string> commandQueue)
         {
             foreach (Contact contact in contacts)  // loop through the contacts!

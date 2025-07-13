@@ -32,6 +32,5 @@ namespace ConsoleApp1
             return true;
         }
         protected abstract void RunCommand(Queue<string> commandQueue);
-
     }
 }
