@@ -21,6 +21,7 @@ commands.Add("delete", new DeleteCommand(contacts));
 commands.Add("exit", new ExitCommand(state));
 commands.Add("clear", new ClearCommand(commands));
 commands.Add("game", new GameCommand(state));
+commands.Add("game2", new Game2Command(state));
 
 Console.WriteLine(string.Join(", ", commands.Keys));
 
