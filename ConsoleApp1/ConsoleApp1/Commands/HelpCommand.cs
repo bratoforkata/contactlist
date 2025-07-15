@@ -1,25 +1,27 @@
-﻿using System;
+﻿using ConsoleApp1.Commands.Core;
+using ConsoleApp1.Services;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleApp1
+namespace ConsoleApp1.Commands
 {
     public class HelpCommand : Command
     {
-        Dictionary<string, Command> commands = new Dictionary<string, Command>();
+        CommandHandler commandHandler;
 
-        public HelpCommand (Dictionary<string, Command> commands) : base(0) //
+        public HelpCommand (CommandHandler commandHandler) : base(0) //
         {
-            this.commands = commands;
+            this.commandHandler = commandHandler;
         }
         protected override void RunCommand(Queue<string> commandQueue)
         {
-            foreach (KeyValuePair<string, Command> command in commands)
+            foreach (var commandKey in commandHandler.GetCommandKeys())
             {
-                Console.WriteLine(command.Key);
+                Console.WriteLine(commandKey);
             }
         }
         public override string ToString()

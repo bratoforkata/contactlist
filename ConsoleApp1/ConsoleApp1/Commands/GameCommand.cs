@@ -1,4 +1,5 @@
-﻿using ConsoleApp1;
+﻿using ConsoleApp1.Commands.Core;
+using ConsoleApp1.Services;
 
 public class GameCommand : Command
 {

@@ -1,32 +1,34 @@
-﻿using System;
+﻿using ConsoleApp1.Commands.Core;
+using ConsoleApp1.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleApp1
+namespace ConsoleApp1.Commands
 {
     public class DeleteCommand : Command
     {
-        private List<Contact> contacts;
+        private ContactRepository contactRepository;
 
-        public DeleteCommand(List<Contact> contacts):base(1)
+        public DeleteCommand(ContactRepository contactRepository):base(1)
         {
-            this.contacts = contacts;
+            this.contactRepository = contactRepository;
         }
         protected override void RunCommand(Queue<string> commandQueue)
         {
             string deleteTerm = commandQueue.Dequeue();
             bool notFound = false; 
 
-            for (int i = (contacts.Count) - (1); i >= 0; i--) //reversed for
+            for (int i = contactRepository.Contacts.Count - 1; i >= 0; i--) //reversed for
             {
-                if (string.Equals(deleteTerm, contacts[i].Name, StringComparison.InvariantCultureIgnoreCase))
+                if (string.Equals(deleteTerm, contactRepository.Contacts[i].Name, StringComparison.InvariantCultureIgnoreCase))
                 //if (contacts[i].Name.Contains(deleteTerm)) -- old version
                 {
                     notFound = true; // new addition
-                    Console.WriteLine(contacts[i].Name + " contact deleted");
-                    contacts.RemoveAt(i);
+                    Console.WriteLine(contactRepository.Contacts[i].Name + " contact deleted");
+                    contactRepository.RemoveAt(i);
                     break;
                 }
             }

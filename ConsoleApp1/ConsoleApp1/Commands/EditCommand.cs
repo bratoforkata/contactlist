@@ -1,19 +1,21 @@
-﻿using System;
+﻿using ConsoleApp1.Commands.Core;
+using ConsoleApp1.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleApp1
+namespace ConsoleApp1.Commands
 {
     public class EditCommand : Command
     {
-        private List<Contact> _contacts; // variables member
+        private ContactRepository _contactRepository; // variables member
         private ApplicationState _applicationState; // variables
 
-        public EditCommand(List<Contact> contacts, ApplicationState applicationState):base(1)
+        public EditCommand(ContactRepository contactRepository, ApplicationState applicationState):base(1)
         {
-            _contacts = contacts;
+            _contactRepository = contactRepository;
             _applicationState = applicationState;
         } //constructor 
         protected override void RunCommand(Queue<string> commandQueue)
@@ -22,20 +24,20 @@ namespace ConsoleApp1
             string editTerm = commandQueue.Dequeue();
             bool notfound = false;
 
-            for (int i = _contacts.Count - 1; i >= 0; i--) //reversed for
+            for (int i = _contactRepository.Contacts.Count - 1; i >= 0; i--) //reversed for
             {
-                if (string.Equals(editTerm, _contacts[i].Name, StringComparison.InvariantCultureIgnoreCase))
+                if (string.Equals(editTerm, _contactRepository.Contacts[i].Name, StringComparison.InvariantCultureIgnoreCase))
                 //if (contacts[i].Name.Contains(editTerm))
                 {
                     Console.WriteLine("enter new name:");
                     string newName = _applicationState.GetNextLine();
 
-                    _contacts[i].Name = newName; // great discovery im proud
+                    _contactRepository.Contacts[i].Name = newName; // great discovery im proud
 
                     Console.WriteLine("enter new phone number:");
                     string newNumber = _applicationState.GetNextLine();
 
-                    _contacts[i].Number = newNumber;
+                    _contactRepository.Contacts[i].Number = newNumber;
 
                     Console.WriteLine("contact updated");
                     notfound = true;

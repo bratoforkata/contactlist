@@ -1,22 +1,24 @@
-﻿using System;
+﻿using ConsoleApp1.Commands.Core;
+using ConsoleApp1.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleApp1
+namespace ConsoleApp1.Commands
 {
     public class PrintCommand : Command
     {
-        private List<Contact> contacts;
+        private ContactRepository contactRepository;
 
-        public PrintCommand(List<Contact> contacts):base(0)
+        public PrintCommand(ContactRepository contactRepository):base(0)
         {
-            this.contacts = contacts;
+            this.contactRepository = contactRepository;
         }
         protected override void RunCommand(Queue<string> commandQueue)
         {
-            foreach (Contact contact in contacts)  // loop through the contacts!
+            foreach (Contact contact in contactRepository.Contacts)  // loop through the contacts!
             {
                 // Console.WriteLine("Contacts:" + contact.Name + ", Phone: " + contact.Number); //the same
                 contact.Print(); // as this

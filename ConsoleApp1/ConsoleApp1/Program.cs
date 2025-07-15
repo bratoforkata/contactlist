@@ -1,28 +1,15 @@
-﻿using ConsoleApp1;
+﻿using ConsoleApp1.Commands;
+using ConsoleApp1.Commands.Core;
+using ConsoleApp1.Services;
 using System.ComponentModel.DataAnnotations;
 // using System.Windows.Input;
 
-List<Contact> contacts = new List<Contact>(); // make a list of contacts
-
-contacts.Add(new Contact("Test", "4411155"));
-contacts.Add(new Contact("Kamil", "123555"));
-contacts.Add(new Contact("Forka", "444455"));
-
 ApplicationState state = new ApplicationState();
+ContactRepository contactRepository = new ContactRepository();
+CommandHandler commandHandler = new CommandHandler(contactRepository, state);
 
-Dictionary<string, Command> commands = new Dictionary<string, Command>();
 
-commands.Add("help", new HelpCommand(commands));
-commands.Add("add", new AddCommand(contacts));
-commands.Add("print", new PrintCommand(contacts));
-commands.Add("search", new SearchCommand(contacts));
-commands.Add("edit", new EditCommand(contacts, state));
-commands.Add("delete", new DeleteCommand(contacts));
-commands.Add("exit", new ExitCommand(state));
-commands.Add("clear", new ClearCommand(commands));
-commands.Add("game", new GameCommand(state));
-
-Console.WriteLine(string.Join(", ", commands.Keys));
+Console.WriteLine(string.Join(", ", commandHandler.GetCommandKeys()));
 
 while (state.IsRunning) //it will run forever
 {
@@ -34,9 +21,9 @@ while (state.IsRunning) //it will run forever
         continue;
     }
         string command = commandQueue.Dequeue();
-    if (commands.ContainsKey(command))
+    if (commandHandler.ContainsKey(command))
     {
-        Command cmd = commands[command];
+        Command cmd = commandHandler.GetCommand(command);
         cmd.Execute(commandQueue);
     }
     else
