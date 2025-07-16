@@ -18,6 +18,10 @@ namespace ConsoleApp1.Commands
             _contactRepository = contactRepository;
             _applicationState = applicationState;
         } //constructor 
+
+        //  protected override string Key => "edit";
+        public override string Name => "edit";
+
         protected override void RunCommand(Queue<string> commandQueue)
         {
 

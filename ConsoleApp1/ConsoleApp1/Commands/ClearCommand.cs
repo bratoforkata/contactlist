@@ -10,6 +10,8 @@ internal class ClearCommand : Command
     {
         this.commandHandler = commandHandler;
     }
+    public override string Name => "clear";
+
     protected override void RunCommand(Queue<string> commandQueue)
     {
         Console.Clear();

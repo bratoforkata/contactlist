@@ -19,6 +19,9 @@ public class Game3Command : Command
     {
         this.state = state;
     }
+    //protected override string Key => "game-sentences";
+
+    public override string Name => "game-sentences";
 
     protected override void RunCommand(Queue<string> commandQueue)
     {

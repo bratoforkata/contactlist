@@ -16,6 +16,9 @@ namespace ConsoleApp1.Commands
         {
             this.contactRepository = contactRepository;
         }
+
+        public override string Name => "delete";
+
         protected override void RunCommand(Queue<string> commandQueue)
         {
             string deleteTerm = commandQueue.Dequeue();

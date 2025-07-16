@@ -16,6 +16,11 @@ namespace ConsoleApp1.Commands
         {
             this.contactRepository = contactRepository;
         }
+
+     //   protected override string Key => "print";
+
+        public override string Name => "print";
+
         protected override void RunCommand(Queue<string> commandQueue)
         {
             foreach (Contact contact in contactRepository.Contacts)  // loop through the contacts!

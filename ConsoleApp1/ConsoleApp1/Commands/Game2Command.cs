@@ -11,6 +11,10 @@ public class Game2Command : Command
     {
         this.state = state;
     }
+
+   // protected override string Key => "game-RPS";
+    public override string Name => "game-RPS";
+
     protected override void RunCommand(Queue<string> commandQueue)
     {
         string[] picks = ["rock", "paper", "scissors"];

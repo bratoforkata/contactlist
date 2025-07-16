@@ -16,6 +16,10 @@ namespace ConsoleApp1.Commands
         {
             this.contactRepository = contactRepository;
         }
+
+        public override string Name => "add";
+
+
         protected override void RunCommand(Queue<string> commandQueue)
         {
             bool isFound = false;

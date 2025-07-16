@@ -9,7 +9,11 @@ public class GameCommand : Command
     {
         this.state = state;
     }
-    
+
+  //  protected override string Key => "game-numbers";
+
+    public override string Name => "game-numbers";
+
     protected override void RunCommand(Queue<string> commandQueue)
     {
         int number = Random.Shared.Next(0,100);

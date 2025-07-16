@@ -10,6 +10,9 @@ namespace ConsoleApp1.Commands.Core
 
     {
         private int requiredNumberCommands;
+
+        public abstract string Name { get; } 
+
         protected Command(int requiredCommands)
         {
             requiredNumberCommands = requiredCommands;
@@ -32,5 +35,6 @@ namespace ConsoleApp1.Commands.Core
             return true;
         }
         protected abstract void RunCommand(Queue<string> commandQueue);
+
     }
 }

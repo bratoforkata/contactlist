@@ -16,6 +16,11 @@ namespace ConsoleApp1.Commands
         {
             this.contactRepository = contactRepository;
         }
+
+        // protected override string Key => "search";
+
+        public override string Name => "search";
+
         protected override void RunCommand(Queue<string> commandQueue)
         {
             string searchTerm = commandQueue.Dequeue(); // define searchTerm - get the text written on the console
