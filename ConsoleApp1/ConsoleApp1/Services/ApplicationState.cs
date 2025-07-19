@@ -1,5 +1,6 @@
 ﻿namespace ConsoleApp1.Services
 {
+
     public class ApplicationState
     {
         bool isRunning = true;
