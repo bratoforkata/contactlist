@@ -17,20 +17,15 @@ namespace ConsoleApp1.Commands
         {
             this.commandHandler = commandHandler;
         }
-        //protected override string Key => "help";
 
         public override string Name => "help";
 
         protected override void RunCommand(Queue<string> commandQueue)
         {
-            foreach (var commandKey in commandHandler.GetCommandKeys())
+            foreach (var commandKey in commandHandler.GetCommandKeys(null))
             {
                 Console.WriteLine(commandKey);
             }
-        }
-        public override string ToString()
-        {
-            return "test";
         }
     }
 }

@@ -15,6 +15,6 @@ internal class ClearCommand : Command
     protected override void RunCommand(Queue<string> commandQueue)
     {
         Console.Clear();
-        Console.WriteLine(string.Join(", ", commandHandler.GetCommandKeys()));
+        Console.WriteLine(string.Join(", ", commandHandler.GetCommandKeys(null)));
     }
 }

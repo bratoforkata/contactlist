@@ -1,18 +1,18 @@
 ﻿using ConsoleApp1.Commands.Core;
 using ConsoleApp1.Services;
 
-public class GameCommand : Command
+public class NumbersGameCommand : Command
 {
     private ApplicationState state;
 
-    public GameCommand(ApplicationState state):base(0)
+    public NumbersGameCommand(ApplicationState state, Guid parentId):base(0, parentId)
     {
         this.state = state;
     }
 
   //  protected override string Key => "game-numbers";
 
-    public override string Name => "game-numbers";
+    public override string Name => "numbers";
 
     protected override void RunCommand(Queue<string> commandQueue)
     {

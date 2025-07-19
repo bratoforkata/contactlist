@@ -1,7 +1,7 @@
 ﻿using ConsoleApp1.Commands.Core;
 using ConsoleApp1.Services;
 
-public class Game3Command : Command
+public class SentenceGameCommand : Command
 {
     List<Sentence> sentences = [
         new Sentence("The quick brown fox jumps over the lazy dog."),
@@ -15,13 +15,12 @@ public class Game3Command : Command
 
     private ApplicationState state;
 
-    public Game3Command(ApplicationState state) : base(0)
+    public SentenceGameCommand(ApplicationState state, Guid parentId) : base(0, parentId)
     {
         this.state = state;
     }
-    //protected override string Key => "game-sentences";
 
-    public override string Name => "game-sentences";
+    public override string Name => "sentences";
 
     protected override void RunCommand(Queue<string> commandQueue)
     {

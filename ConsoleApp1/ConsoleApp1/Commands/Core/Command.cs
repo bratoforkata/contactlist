@@ -13,10 +13,20 @@ namespace ConsoleApp1.Commands.Core
 
         public abstract string Name { get; } 
 
-        protected Command(int requiredCommands)
+        public Guid Id { get; init; }
+        public Guid? ParentId { get; init; }
+
+        protected Command(int requiredCommands, Guid? parentId)
         {
             requiredNumberCommands = requiredCommands;
+            Id = Guid.NewGuid();
+            ParentId = parentId;
         }
+        protected Command(int requiredCommands):this(requiredCommands, null)
+        {
+          
+        }
+
 
         public void Execute(Queue<string> commandQueue)
         {

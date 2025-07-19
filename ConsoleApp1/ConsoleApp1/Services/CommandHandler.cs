@@ -17,24 +17,34 @@ namespace ConsoleApp1.Services
             commands.Add(new DeleteCommand(contactRepository));
             commands.Add(new ExitCommand(state));
             commands.Add(new ClearCommand(this));
-            commands.Add(new GameCommand(state));
-            commands.Add(new Game2Command(state));
-            commands.Add(new Game3Command(state));
+            commands.Add(new GamesFolderCommand(this, state));
+
         }
 
-        internal bool ContainsKey(string command)
+        internal bool ContainsKey(string command, Guid? parentId) 
         {
-            return commands.Any(c => c.Name == command);
+            return commands
+                .Where(x => x.ParentId == parentId)
+                .Any(c => c.Name == command);
         }
 
-        internal Command GetCommand(string command) 
+        internal Command GetCommand(string command, Guid? parentId) 
         {
-            return commands.FirstOrDefault(c => c.Name == command);
+            return commands
+                .Where(x => x.ParentId == parentId)
+                .FirstOrDefault(c => c.Name == command);
         }
 
-        internal IEnumerable<string> GetCommandKeys() 
+        internal IEnumerable<string> GetCommandKeys(Guid? parentId) 
         {
-            return commands.Select(c => c.Name);
+            return commands
+                .Where(x => x.ParentId == parentId)
+                .Select(c => c.Name);
+        }
+
+        internal void Add(Command command) 
+        {
+            commands.Add(command);
         }
     }
 }

@@ -8,7 +8,7 @@ ApplicationState state = new ApplicationState();
 ContactRepository contactRepository = new ContactRepository();
 CommandHandler commandHandler = new CommandHandler(contactRepository, state);
 
-Console.WriteLine(string.Join(", ", commandHandler.GetCommandKeys()));
+Console.WriteLine(string.Join(", ", commandHandler.GetCommandKeys(null)));
 
 while (state.IsRunning) //it will run forever
 {
@@ -21,9 +21,9 @@ while (state.IsRunning) //it will run forever
     }
         string command = commandQueue.Dequeue(); // need to modify this
 
-    if (commandHandler.ContainsKey(command))
+    if (commandHandler.ContainsKey(command, null))
     {
-        Command cmd = commandHandler.GetCommand(command);
+        Command cmd = commandHandler.GetCommand(command, null);
         cmd.Execute(commandQueue);
     }
     else

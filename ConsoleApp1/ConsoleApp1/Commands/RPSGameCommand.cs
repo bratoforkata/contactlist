@@ -3,17 +3,17 @@ using ConsoleApp1.Services;
 using System.ComponentModel.Design;
 using System.Runtime.CompilerServices;
 
-public class Game2Command : Command
+public class RPSGameCommand : Command
 {
     private ApplicationState state;
 
-    public Game2Command(ApplicationState state) : base(0)
+    public RPSGameCommand(ApplicationState state, Guid parentId) : base(0, parentId)
     {
         this.state = state;
     }
 
    // protected override string Key => "game-RPS";
-    public override string Name => "game-RPS";
+    public override string Name => "rps";
 
     protected override void RunCommand(Queue<string> commandQueue)
     {
