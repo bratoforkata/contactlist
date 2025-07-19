@@ -7,6 +7,14 @@ using System.ComponentModel.DataAnnotations;
 ApplicationState state = new ApplicationState();
 ContactRepository contactRepository = new ContactRepository();
 CommandHandler commandHandler = new CommandHandler(contactRepository, state);
+FileService fileService = new FileService();
+
+var lines = fileService.LoadFile("test.txt");
+foreach (var line in lines)
+{
+    Console.WriteLine(line);
+}
+
 
 Console.WriteLine(string.Join(", ", commandHandler.GetCommandKeys(null)));
 
@@ -14,12 +22,12 @@ while (state.IsRunning) //it will run forever
 {
     Queue<string> commandQueue = state.GetCommandQueue();
 
-    if (commandQueue.Count == 0) 
+    if (commandQueue.Count == 0)
     {
         Console.WriteLine("please enter a command");
         continue;
     }
-        string command = commandQueue.Dequeue(); // need to modify this
+    string command = commandQueue.Dequeue(); // need to modify this
 
     if (commandHandler.ContainsKey(command, null))
     {
