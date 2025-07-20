@@ -1,5 +1,6 @@
 ﻿using ConsoleApp1.Commands;
 using ConsoleApp1.Commands.Core;
+using ConsoleApp1.Interfaces;
 
 namespace ConsoleApp1.Services
 {
@@ -7,7 +8,11 @@ namespace ConsoleApp1.Services
     {
         List<Command> commands = new List<Command>();
 
-        public CommandHandler(ContactRepository contactRepository, ApplicationState state)
+        public CommandHandler(
+            ContactRepository contactRepository, 
+            ApplicationState state, 
+            ISentenceRepository sentenceRepository)
+
         {
             commands.Add(new HelpCommand(this));
             commands.Add(new AddCommand(contactRepository));
@@ -17,7 +22,7 @@ namespace ConsoleApp1.Services
             commands.Add(new DeleteCommand(contactRepository));
             commands.Add(new ExitCommand(state));
             commands.Add(new ClearCommand(this));
-            commands.Add(new GamesFolderCommand(this, state));
+            commands.Add(new GamesFolderCommand(this, state, sentenceRepository));
 
         }
 

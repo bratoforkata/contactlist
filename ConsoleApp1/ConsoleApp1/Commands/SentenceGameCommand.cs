@@ -1,23 +1,20 @@
 ﻿using ConsoleApp1.Commands.Core;
+using ConsoleApp1.Interfaces;
 using ConsoleApp1.Services;
 
 public class SentenceGameCommand : Command
 {
-    List<Sentence> sentences = [
-        new Sentence("The quick brown fox jumps over the lazy dog."),
-        new Sentence("Typing fast is fun until your fingers forget where the keys are."),
-        new Sentence("If robots take over the world, I hope they at least fix traffic."),
-        new Sentence("Bananas are not phones, no matter how loudly you yell into them."),
-        new Sentence("I accidentally deleted the universe, but thankfully I had a backup."),
-        new Sentence("Coding late at night leads to mysterious bugs and lots of coffee."),
-        new Sentence("Why do programmers confuse Halloween and Christmas? Because Oct 31 == Dec 25.")
-        ];
 
     private ApplicationState state;
+    private readonly ISentenceRepository sentenceRepository;
 
-    public SentenceGameCommand(ApplicationState state, Guid parentId) : base(0, parentId)
+
+
+
+    public SentenceGameCommand(ApplicationState state, Guid parentId, ISentenceRepository sentenceRepository) : base(0, parentId)
     {
         this.state = state;
+        this.sentenceRepository = sentenceRepository;
     }
 
     public override string Name => "sentences";
@@ -28,7 +25,8 @@ public class SentenceGameCommand : Command
         {
             Console.WriteLine("Welcome to the Sentence GAME");
             Console.WriteLine("Here is your sentence, read it and press enter to begin:");
-            var sentence = sentences[Random.Shared.Next(sentences.Count)];
+          
+            var sentence = sentenceRepository.GetRandomSentence();
             Console.WriteLine("Your sentence is: " + sentence.Text);
             Console.ReadLine(); // waiting to press the ENter :)
 
