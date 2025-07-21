@@ -8,8 +8,9 @@ using System.ComponentModel.DataAnnotations;
 ApplicationState state = new ApplicationState();
 ContactRepository contactRepository = new ContactRepository();
 FileService fileService = new FileService();
+ISentenceScoreRepository scoreRepository = new SentenceScoreRepository(fileService); 
 ISentenceRepository sentenceRepository = new SentenceRepository(fileService);
-CommandHandler commandHandler = new CommandHandler(contactRepository, state, sentenceRepository);
+CommandHandler commandHandler = new CommandHandler(contactRepository, state, sentenceRepository, scoreRepository);
 
 var lines = fileService.LoadFile("test.txt");
 foreach (var line in lines)

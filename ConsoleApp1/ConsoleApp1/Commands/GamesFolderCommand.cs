@@ -17,7 +17,8 @@ namespace ConsoleApp1.Commands
         public GamesFolderCommand(
             ICommandHandler handler, 
             ApplicationState state, 
-            ISentenceRepository sentenceRepository) 
+            ISentenceRepository sentenceRepository,
+            ISentenceScoreRepository scoreRepository)
             : base(0)
 
         {
@@ -26,7 +27,7 @@ namespace ConsoleApp1.Commands
 
             handler.Add(new NumbersGameCommand(state, Id));
             handler.Add(new RPSGameCommand(state, Id));
-            handler.Add(new SentenceGameCommand(state, Id, sentenceRepository));
+            handler.Add(new SentenceGameCommand(state, Id, sentenceRepository, scoreRepository));
             handler.Add(new BattleshipsGameCommand(state, Id));
 
         }

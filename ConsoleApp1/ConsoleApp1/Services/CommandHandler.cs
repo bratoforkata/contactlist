@@ -11,7 +11,8 @@ namespace ConsoleApp1.Services
         public CommandHandler(
             IContactRepository contactRepository,
             ApplicationState state,
-            ISentenceRepository sentenceRepository)
+            ISentenceRepository sentenceRepository,
+            ISentenceScoreRepository scoreRepository)
 
         {
             commands.Add(new HelpCommand(this));
@@ -22,7 +23,7 @@ namespace ConsoleApp1.Services
             commands.Add(new DeleteCommand(contactRepository));
             commands.Add(new ExitCommand(state));
             commands.Add(new ClearCommand(this));
-            commands.Add(new GamesFolderCommand(this, state, sentenceRepository));
+            commands.Add(new GamesFolderCommand(this, state, sentenceRepository, scoreRepository));
 
         }
         // internal bool ContainsKey(string command, Guid? parentId)
