@@ -1,4 +1,5 @@
 ﻿using ConsoleApp1.Commands.Core;
+using ConsoleApp1.Interfaces;
 using ConsoleApp1.Services;
 using System;
 using System.Collections.Generic;
@@ -10,9 +11,9 @@ namespace ConsoleApp1.Commands
 {
     public class AddCommand : Command
     {
-        private ContactRepository contactRepository;
+        private IContactRepository contactRepository;
 
-        public AddCommand(ContactRepository contactRepository):base(2)
+        public AddCommand(IContactRepository contactRepository):base(2)
         {
             this.contactRepository = contactRepository;
         }

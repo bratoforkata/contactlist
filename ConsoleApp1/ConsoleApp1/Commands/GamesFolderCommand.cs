@@ -11,11 +11,11 @@ namespace ConsoleApp1.Commands
 {
     public class GamesFolderCommand : Command
     {
-        private CommandHandler handler;
+        private ICommandHandler handler;
         private ApplicationState state;
 
         public GamesFolderCommand(
-            CommandHandler handler, 
+            ICommandHandler handler, 
             ApplicationState state, 
             ISentenceRepository sentenceRepository) 
             : base(0)

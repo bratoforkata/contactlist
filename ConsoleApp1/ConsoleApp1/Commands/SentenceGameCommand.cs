@@ -4,14 +4,14 @@ using ConsoleApp1.Services;
 
 public class SentenceGameCommand : Command
 {
-
     private ApplicationState state;
     private readonly ISentenceRepository sentenceRepository;
 
-
-
-
-    public SentenceGameCommand(ApplicationState state, Guid parentId, ISentenceRepository sentenceRepository) : base(0, parentId)
+    public SentenceGameCommand(
+        ApplicationState state,
+        Guid parentId, 
+        ISentenceRepository sentenceRepository) 
+        : base(0, parentId)
     {
         this.state = state;
         this.sentenceRepository = sentenceRepository;
