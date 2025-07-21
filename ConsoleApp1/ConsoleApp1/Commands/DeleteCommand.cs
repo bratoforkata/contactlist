@@ -1,4 +1,5 @@
 ﻿using ConsoleApp1.Commands.Core;
+using ConsoleApp1.Interfaces;
 using ConsoleApp1.Services;
 using System;
 using System.Collections.Generic;
@@ -10,9 +11,9 @@ namespace ConsoleApp1.Commands
 {
     public class DeleteCommand : Command
     {
-        private ContactRepository contactRepository;
+        private IContactRepository contactRepository;
 
-        public DeleteCommand(ContactRepository contactRepository):base(1)
+        public DeleteCommand(IContactRepository contactRepository):base(1)
         {
             this.contactRepository = contactRepository;
         }

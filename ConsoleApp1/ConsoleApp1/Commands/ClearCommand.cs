@@ -1,12 +1,12 @@
 ﻿using ConsoleApp1.Commands.Core;
+using ConsoleApp1.Interfaces;
 using ConsoleApp1.Services;
 
 internal class ClearCommand : Command
 {
+    ICommandHandler commandHandler;
 
-    CommandHandler commandHandler;
-
-    public ClearCommand(CommandHandler commandHandler) : base(0)
+    public ClearCommand(ICommandHandler commandHandler) : base(0)
     {
         this.commandHandler = commandHandler;
     }

@@ -1,4 +1,5 @@
 ﻿using ConsoleApp1.Commands.Core;
+using ConsoleApp1.Interfaces;
 using ConsoleApp1.Services;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,9 @@ namespace ConsoleApp1.Commands
 {
     public class HelpCommand : Command
     {
-        CommandHandler commandHandler;
+        ICommandHandler commandHandler;
 
-        public HelpCommand (CommandHandler commandHandler) : base(0) //
+        public HelpCommand (ICommandHandler commandHandler) : base(0) //
         {
             this.commandHandler = commandHandler;
         }

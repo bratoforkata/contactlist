@@ -1,4 +1,5 @@
 ﻿using ConsoleApp1.Commands.Core;
+using ConsoleApp1.Interfaces;
 using ConsoleApp1.Services;
 using System;
 using System.Collections.Generic;
@@ -10,21 +11,19 @@ namespace ConsoleApp1.Commands
 {
     public class EditCommand : Command
     {
-        private ContactRepository _contactRepository; // variables member
+        private IContactRepository _contactRepository; // variables member
         private ApplicationState _applicationState; // variables
 
-        public EditCommand(ContactRepository contactRepository, ApplicationState applicationState):base(1)
+        public EditCommand(IContactRepository contactRepository, ApplicationState applicationState):base(1)
         {
             _contactRepository = contactRepository;
             _applicationState = applicationState;
         } //constructor 
 
-        //  protected override string Key => "edit";
         public override string Name => "edit";
 
         protected override void RunCommand(Queue<string> commandQueue)
         {
-
             string editTerm = commandQueue.Dequeue();
             bool notfound = false;
 

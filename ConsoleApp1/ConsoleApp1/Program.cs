@@ -1,13 +1,16 @@
 ﻿using ConsoleApp1.Commands;
 using ConsoleApp1.Commands.Core;
+using ConsoleApp1.Interfaces;
 using ConsoleApp1.Services;
 using System.ComponentModel.DataAnnotations;
 // using System.Windows.Input;
 
 ApplicationState state = new ApplicationState();
 ContactRepository contactRepository = new ContactRepository();
-CommandHandler commandHandler = new CommandHandler(contactRepository, state);
 FileService fileService = new FileService();
+ISentenceScoreRepository scoreRepository = new SentenceScoreRepository(fileService); 
+ISentenceRepository sentenceRepository = new SentenceRepository(fileService);
+CommandHandler commandHandler = new CommandHandler(contactRepository, state, sentenceRepository, scoreRepository);
 
 var lines = fileService.LoadFile("test.txt");
 foreach (var line in lines)

@@ -1,4 +1,5 @@
 ﻿using ConsoleApp1.Commands.Core;
+using ConsoleApp1.Interfaces;
 using ConsoleApp1.Services;
 using System;
 using System.Collections.Generic;
@@ -10,14 +11,12 @@ namespace ConsoleApp1.Commands
 {
     public class SearchCommand : Command
     {
-        private ContactRepository contactRepository;
+        private IContactRepository contactRepository;
 
-        public SearchCommand(ContactRepository contactRepository):base(1)
+        public SearchCommand(IContactRepository contactRepository):base(1)
         {
             this.contactRepository = contactRepository;
         }
-
-        // protected override string Key => "search";
 
         public override string Name => "search";
 

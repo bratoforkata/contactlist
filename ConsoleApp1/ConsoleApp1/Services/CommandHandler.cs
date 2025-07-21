@@ -1,13 +1,19 @@
 ﻿using ConsoleApp1.Commands;
 using ConsoleApp1.Commands.Core;
+using ConsoleApp1.Interfaces;
 
 namespace ConsoleApp1.Services
 {
-    public class CommandHandler 
+    public class CommandHandler : ICommandHandler
     {
         List<Command> commands = new List<Command>();
 
-        public CommandHandler(ContactRepository contactRepository, ApplicationState state)
+        public CommandHandler(
+            IContactRepository contactRepository,
+            ApplicationState state,
+            ISentenceRepository sentenceRepository,
+            ISentenceScoreRepository scoreRepository)
+
         {
             commands.Add(new HelpCommand(this));
             commands.Add(new AddCommand(contactRepository));
@@ -17,32 +23,35 @@ namespace ConsoleApp1.Services
             commands.Add(new DeleteCommand(contactRepository));
             commands.Add(new ExitCommand(state));
             commands.Add(new ClearCommand(this));
-            commands.Add(new GamesFolderCommand(this, state));
+            commands.Add(new GamesFolderCommand(this, state, sentenceRepository, scoreRepository));
 
         }
-
-        internal bool ContainsKey(string command, Guid? parentId) 
+        // internal bool ContainsKey(string command, Guid? parentId)
+        public bool ContainsKey(string command, Guid? parentId)
         {
             return commands
                 .Where(x => x.ParentId == parentId)
                 .Any(c => c.Name == command);
         }
 
-        internal Command GetCommand(string command, Guid? parentId) 
+        //internal Command GetCommand(string command, Guid? parentId)
+        public Command GetCommand(string command, Guid? parentId)
         {
             return commands
                 .Where(x => x.ParentId == parentId)
                 .FirstOrDefault(c => c.Name == command);
         }
 
-        internal IEnumerable<string> GetCommandKeys(Guid? parentId) 
+        //internal IEnumerable<string> GetCommandKeys(Guid? parentId)
+        public IEnumerable<string> GetCommandKeys(Guid? parentId)
         {
             return commands
                 .Where(x => x.ParentId == parentId)
                 .Select(c => c.Name);
         }
 
-        internal void Add(Command command) 
+        //  internal void Add(Command command)
+        public void Add(Command command)
         {
             commands.Add(command);
         }

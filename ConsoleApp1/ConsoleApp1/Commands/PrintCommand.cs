@@ -1,4 +1,5 @@
 ﻿using ConsoleApp1.Commands.Core;
+using ConsoleApp1.Interfaces;
 using ConsoleApp1.Services;
 using System;
 using System.Collections.Generic;
@@ -10,14 +11,12 @@ namespace ConsoleApp1.Commands
 {
     public class PrintCommand : Command
     {
-        private ContactRepository contactRepository;
+        private IContactRepository contactRepository;
 
-        public PrintCommand(ContactRepository contactRepository):base(0)
+        public PrintCommand(IContactRepository contactRepository):base(0)
         {
             this.contactRepository = contactRepository;
         }
-
-     //   protected override string Key => "print";
 
         public override string Name => "print";
 

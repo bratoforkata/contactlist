@@ -1,4 +1,5 @@
 ﻿using ConsoleApp1.Commands.Core;
+using ConsoleApp1.Interfaces;
 using ConsoleApp1.Services;
 using System;
 using System.Collections.Generic;
@@ -10,17 +11,23 @@ namespace ConsoleApp1.Commands
 {
     public class GamesFolderCommand : Command
     {
-        private CommandHandler handler;
+        private ICommandHandler handler;
         private ApplicationState state;
 
-        public GamesFolderCommand(CommandHandler handler, ApplicationState state) : base(0)
+        public GamesFolderCommand(
+            ICommandHandler handler, 
+            ApplicationState state, 
+            ISentenceRepository sentenceRepository,
+            ISentenceScoreRepository scoreRepository)
+            : base(0)
+
         {
             this.handler = handler;
             this.state = state;
 
             handler.Add(new NumbersGameCommand(state, Id));
             handler.Add(new RPSGameCommand(state, Id));
-            handler.Add(new SentenceGameCommand(state, Id));
+            handler.Add(new SentenceGameCommand(state, Id, sentenceRepository, scoreRepository));
             handler.Add(new BattleshipsGameCommand(state, Id));
 
         }

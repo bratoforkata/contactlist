@@ -1,10 +1,13 @@
-﻿using ConsoleApp1.Lessons;
+﻿using ConsoleApp1.Interfaces;
+using ConsoleApp1.Lessons;
 
 namespace ConsoleApp1.Services
 {
-    public class FileService
+    public class FileService : IFileService
     {
-        private const string filePath = "C:\\Users\\user\\source\\repos\\bratoforkata\\contactlist\\savedFiles";
+        private const string
+            filePath = "C:\\Users\\user\\source\\repos\\bratoforkata\\contactlist\\savedFiles";
+
         public void SaveFile(string fileName, string data, bool append)
         {
             try
