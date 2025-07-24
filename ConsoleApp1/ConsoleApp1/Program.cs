@@ -6,18 +6,11 @@ using System.ComponentModel.DataAnnotations;
 // using System.Windows.Input;
 
 ApplicationState state = new ApplicationState();
-ContactRepository contactRepository = new ContactRepository();
 FileService fileService = new FileService();
+ContactRepository contactRepository = new ContactRepository(fileService);
 ISentenceScoreRepository scoreRepository = new SentenceScoreRepository(fileService); 
 ISentenceRepository sentenceRepository = new SentenceRepository(fileService);
-CommandHandler commandHandler = new CommandHandler(contactRepository, state, sentenceRepository, scoreRepository);
-
-var lines = fileService.LoadFile("test.txt");
-foreach (var line in lines)
-{
-    Console.WriteLine(line);
-}
-
+CommandHandler commandHandler = new CommandHandler(contactRepository, state, sentenceRepository, scoreRepository, fileService);
 
 Console.WriteLine(string.Join(", ", commandHandler.GetCommandKeys(null)));
 

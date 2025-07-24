@@ -11,5 +11,7 @@ namespace ConsoleApp1.Interfaces
         List<Contact> Contacts { get; }
         void Add(Contact contact);
         void RemoveAt(int i);
+
+        List<Contact> GetAll();
     }
 }

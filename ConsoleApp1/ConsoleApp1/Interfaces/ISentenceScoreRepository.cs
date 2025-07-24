@@ -6,6 +6,6 @@ namespace ConsoleApp1.Interfaces
     {
         void Add(SentenceScore sentenceScore);
 
-        SentenceScore[] GetScores();
+        SentenceScore[] GetAll();
     }
 }

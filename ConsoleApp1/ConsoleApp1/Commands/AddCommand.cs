@@ -12,10 +12,12 @@ namespace ConsoleApp1.Commands
     public class AddCommand : Command
     {
         private IContactRepository contactRepository;
+        private readonly IFileService fileService;
 
-        public AddCommand(IContactRepository contactRepository):base(2)
+        public AddCommand(IContactRepository contactRepository, IFileService fileService) : base(2)
         {
             this.contactRepository = contactRepository;
+            this.fileService = fileService;
         }
 
         public override string Name => "add";
@@ -40,7 +42,10 @@ namespace ConsoleApp1.Commands
             if (isFound == false)
             {
                 contactRepository.Add(new Contact(name, number));
-                Console.WriteLine("added something");
+                Console.WriteLine("added contact.");
+
+                string line = $"{name} {number}";
+                fileService.SaveFile("Contacts.txt", line, append: true);
             }
         }
     }

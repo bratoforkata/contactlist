@@ -12,10 +12,12 @@ namespace ConsoleApp1.Commands
     public class PrintCommand : Command
     {
         private IContactRepository contactRepository;
+        private readonly IFileService fileService;
 
-        public PrintCommand(IContactRepository contactRepository):base(0)
+        public PrintCommand(IContactRepository contactRepository, IFileService fileService) : base(0)
         {
             this.contactRepository = contactRepository;
+            this.fileService = fileService;
         }
 
         public override string Name => "print";
@@ -24,8 +26,16 @@ namespace ConsoleApp1.Commands
         {
             foreach (Contact contact in contactRepository.Contacts)  // loop through the contacts!
             {
-                // Console.WriteLine("Contacts:" + contact.Name + ", Phone: " + contact.Number); //the same
-                contact.Print(); // as this
+                contact.Print(); 
+            }
+
+            // printing from file?
+
+            var lines = fileService.LoadFile("Contacts.txt");
+
+            foreach (var line in lines)
+            {
+                Console.WriteLine("Contact:" + line);
             }
         }
     }

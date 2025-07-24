@@ -12,12 +12,13 @@ namespace ConsoleApp1.Services
             IContactRepository contactRepository,
             ApplicationState state,
             ISentenceRepository sentenceRepository,
-            ISentenceScoreRepository scoreRepository)
+            ISentenceScoreRepository scoreRepository,
+            IFileService fileService)
 
         {
             commands.Add(new HelpCommand(this));
-            commands.Add(new AddCommand(contactRepository));
-            commands.Add(new PrintCommand(contactRepository));
+            commands.Add(new AddCommand(contactRepository,fileService));
+            commands.Add(new PrintCommand(contactRepository, fileService));
             commands.Add(new SearchCommand(contactRepository));
             commands.Add(new EditCommand(contactRepository, state));
             commands.Add(new DeleteCommand(contactRepository));

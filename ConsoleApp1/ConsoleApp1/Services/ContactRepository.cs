@@ -4,29 +4,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ConsoleApp1.Interfaces;
+using ConsoleApp1.Services.Core;
 
 namespace ConsoleApp1.Services
 {
-    public class ContactRepository : IContactRepository
+    public class ContactRepository : Repository<Contact>, IContactRepository
     {
-        List<Contact> contacts = [
-            new Contact("Test", "4411155"),
-            new Contact("Kamil", "123555"),
-            new Contact("Forka", "444455")
-            ]; // make a list of contacts
-        public List<Contact> Contacts { get { return contacts; } }
+        private const string fileName = "Contacts.txt";
 
-        // internal void Add(Contact contact)
-        public void Add(Contact contact)
+        public List<Contact> Contacts => GetAll();
+
+        public ContactRepository(IFileService fileService) : base (fileService, fileName) 
         {
-            contacts.Add(contact);
+
         }
 
-        // internal void RemoveAt(int i)
-        public void RemoveAt(int i)
+
+        protected override string ToLine(Contact contact)
         {
-            contacts.RemoveAt(i);
+            return string.Join("_", contact.Name, contact.Number);
+        }
+
+        protected override Contact FromLine(string line)
+        {
+            var split = line.Split('_');
+            return new Contact(split[0], split[1]);
         }
     }
-
 }

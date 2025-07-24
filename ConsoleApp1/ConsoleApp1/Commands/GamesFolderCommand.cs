@@ -28,6 +28,7 @@ namespace ConsoleApp1.Commands
             handler.Add(new NumbersGameCommand(state, Id));
             handler.Add(new RPSGameCommand(state, Id));
             handler.Add(new SentenceGameCommand(state, Id, sentenceRepository, scoreRepository));
+            handler.Add(new SentenceScoreCommand(state, Id, sentenceRepository, scoreRepository));
             handler.Add(new BattleshipsGameCommand(state, Id));
 
         }
