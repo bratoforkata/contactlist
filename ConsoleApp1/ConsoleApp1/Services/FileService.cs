@@ -1,12 +1,13 @@
 ﻿using ConsoleApp1.Interfaces;
 using ConsoleApp1.Lessons;
+using System.Runtime;
 
 namespace ConsoleApp1.Services
 {
     public class FileService : IFileService
     {
-        private const string
-            filePath = "C:\\Users\\user\\source\\repos\\bratoforkata\\contactlist\\savedFiles";
+        private static readonly string
+            filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "SavedFiles");
 
         public void SaveFile(string fileName, string data, bool append)
         {
