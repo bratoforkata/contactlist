@@ -30,7 +30,7 @@ namespace ConsoleApp1.Commands
             string number = commandQueue.Dequeue();
 
             //foreach (Contact contact in contacts) // it dies when testing :(
-            for (int i = contactRepository.Contacts.Count - 1; i >= 0; i--)
+            for (int i = contactRepository.Contacts.Length - 1; i >= 0; i--)
             {
                 if (string.Equals(name, contactRepository.Contacts[i].Name, StringComparison.InvariantCultureIgnoreCase))
                 {

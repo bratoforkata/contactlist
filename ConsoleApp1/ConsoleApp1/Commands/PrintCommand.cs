@@ -28,15 +28,6 @@ namespace ConsoleApp1.Commands
             {
                 contact.Print(); 
             }
-
-            // printing from file?
-
-            var lines = fileService.LoadFile("Contacts.txt");
-
-            foreach (var line in lines)
-            {
-                Console.WriteLine("Contact:" + line);
-            }
         }
     }
 }

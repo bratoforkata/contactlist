@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConsoleApp1.Interfaces.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,12 +7,9 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp1.Interfaces
 {
-    public interface IContactRepository
+    public interface IContactRepository : IRepository<Contact>
     {
-        List<Contact> Contacts { get; }
-        void Add(Contact contact);
-        void RemoveAt(int i);
-
-        List<Contact> GetAll();
+        Contact[] Contacts { get; }
+       
     }
 }

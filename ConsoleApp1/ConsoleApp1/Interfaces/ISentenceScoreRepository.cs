@@ -1,11 +1,10 @@
-﻿using ConsoleApp1.Models;
+﻿using ConsoleApp1.Interfaces.Core;
+using ConsoleApp1.Models;
 
 namespace ConsoleApp1.Interfaces
 {
-    public interface ISentenceScoreRepository
+    public interface ISentenceScoreRepository : IRepository<SentenceScore>
     {
-        void Add(SentenceScore sentenceScore);
-
-        SentenceScore[] GetAll();
+      
     }
 }
