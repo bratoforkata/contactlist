@@ -12,7 +12,7 @@ namespace ConsoleApp1.Services
     {
         private const string fileName = "Contacts.txt";
 
-        public List<Contact> Contacts => GetAll();
+        public Contact[] Contacts => GetAll();
 
         public ContactRepository(IFileService fileService) : base (fileService, fileName) 
         {

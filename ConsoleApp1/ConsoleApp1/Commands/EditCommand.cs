@@ -26,21 +26,23 @@ namespace ConsoleApp1.Commands
         {
             string editTerm = commandQueue.Dequeue();
             bool notfound = false;
+            var contacts = _contactRepository.Contacts;
 
-            for (int i = _contactRepository.Contacts.Count - 1; i >= 0; i--) //reversed for
+            for (int i = contacts.Length - 1; i >= 0; i--) //reversed for
             {
-                if (string.Equals(editTerm, _contactRepository.Contacts[i].Name, StringComparison.InvariantCultureIgnoreCase))
-                //if (contacts[i].Name.Contains(editTerm))
+                if (string.Equals(editTerm, contacts[i].Name, StringComparison.InvariantCultureIgnoreCase))
                 {
                     Console.WriteLine("enter new name:");
                     string newName = _applicationState.GetNextLine();
 
-                    _contactRepository.Contacts[i].Name = newName; // great discovery im proud
-
                     Console.WriteLine("enter new phone number:");
                     string newNumber = _applicationState.GetNextLine();
 
-                    _contactRepository.Contacts[i].Number = newNumber;
+                    Contact toEdit = contacts[i];
+                    toEdit.Name = newName;
+                    toEdit.Number = newNumber;
+
+                    _contactRepository.ReplaceAt(i, toEdit);
 
                     Console.WriteLine("contact updated");
                     notfound = true;

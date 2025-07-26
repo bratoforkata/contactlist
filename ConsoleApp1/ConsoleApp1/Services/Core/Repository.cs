@@ -1,4 +1,5 @@
 ﻿using ConsoleApp1.Interfaces;
+using ConsoleApp1.Interfaces.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 namespace ConsoleApp1.Services.Core
 
 {
-    public abstract class Repository<T>
+    public abstract class Repository<T> : IRepository<T>
     {
         private readonly IFileService _fileService;
         private readonly string fileName;
@@ -25,18 +26,25 @@ namespace ConsoleApp1.Services.Core
 
         public void RemoveAt(int i)
         {
-            var data = GetAll();
+            var data = GetAll().ToList();
             data.RemoveAt(i);
             Save(data);
         }
 
-        public List<T> GetAll()
+        public void ReplaceAt(int i, T item)
+        {
+            var data = GetAll();
+            data[i] = item;
+            Save(data);
+        }
+
+        public T[] GetAll()
         {
             var lines = _fileService.LoadFile(fileName);
 
             return lines
                 .Select(FromLine)
-                .ToList();
+                .ToArray();
         }
         private void Save(IEnumerable<T> data) // we can use that for the editting of contacts
         {
@@ -45,7 +53,9 @@ namespace ConsoleApp1.Services.Core
              string.Join(Environment.NewLine, data.Select(ToLine)),
              false);
         }
-        protected abstract string ToLine(T contact);
+
+
+        protected abstract string ToLine(T item);
         protected abstract T FromLine(string line);
     }
 }

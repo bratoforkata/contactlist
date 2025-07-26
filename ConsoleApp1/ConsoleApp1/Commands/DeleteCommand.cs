@@ -25,7 +25,7 @@ namespace ConsoleApp1.Commands
             string deleteTerm = commandQueue.Dequeue();
             bool notFound = false; 
 
-            for (int i = contactRepository.Contacts.Count - 1; i >= 0; i--) //reversed for
+            for (int i = contactRepository.Contacts.Length - 1; i >= 0; i--) //reversed for
             {
                 if (string.Equals(deleteTerm, contactRepository.Contacts[i].Name, StringComparison.InvariantCultureIgnoreCase))
                 //if (contacts[i].Name.Contains(deleteTerm)) -- old version
