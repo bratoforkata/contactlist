@@ -30,6 +30,8 @@ namespace ConsoleApp1.Commands
             handler.Add(new SentenceGameCommand(state, Id, sentenceRepository, scoreRepository));
             handler.Add(new SentenceScoreCommand(state, Id, sentenceRepository, scoreRepository));
             handler.Add(new BattleshipsGameCommand(state, Id));
+            handler.Add(new TicTacToeGameCommand (state, Id));
+            handler.Add(new HangDudGameCommand(state, Id));
 
         }
 
