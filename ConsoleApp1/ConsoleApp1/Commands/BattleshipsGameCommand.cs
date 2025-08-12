@@ -1,4 +1,5 @@
-﻿using ConsoleApp1.Commands.Core;
+﻿using ConsoleApp1.Commands.BattleshipModels;
+using ConsoleApp1.Commands.Core;
 using ConsoleApp1.Services;
 
 namespace ConsoleApp1.Commands;
@@ -17,35 +18,13 @@ public class BattleshipsGameCommand : Command
     public BattleshipsGameCommand(ApplicationState state, Guid parentId) : base(0, parentId)
     {
         this.state = state;
-        playerShips.Add(new Ship
-        {
-            Size = 2,
-            IsSunk = false,
-            Segments = [
-            new Segment{IsHit= false, X = 2, Y = 2},
-            new Segment{IsHit= true, X = 3, Y = 2}
-            ]
-        });
-        computerShips.Add(new Ship
-        {
-            Size = 2,
-            IsSunk = false,
-            Segments = [
-            new Segment{IsHit= false, X = 2, Y = 2},
-            new Segment{IsHit= true, X = 3, Y = 2},
-            new Segment{IsHit= false, X = 4, Y = 2},
-            new Segment{IsHit= true, X = 5, Y = 2}
-            ]
-        });
-
     }
 
     public override string Name => "battleships";
 
     protected override void RunCommand(Queue<string> commandQueue)
     {
-        Console.Clear();
-        Console.WriteLine("Welcome to Battheships yo!");
+        Initialize();
 
         while (true)
         {
@@ -54,10 +33,20 @@ public class BattleshipsGameCommand : Command
             MakeAttack(attack, true);
 
         }
+    }
 
-        Console.WriteLine("pick positions to place your 3 ships:");
-        //talk about dependency injection
+    private void Initialize()
+    {
+        Console.Clear();
+        Console.WriteLine("Welcome to Battheships yo!");
 
+        var map = MapGenerator.GenerateMap(GridSize);
+
+        playerShips = map.Player1;
+        computerShips = map.Player2;
+
+        playerAttacks.Clear();
+        computerAttacks.Clear();
     }
 
     private void MakeAttack(Attack attack, bool isPlayerGrid)
@@ -119,7 +108,7 @@ public class BattleshipsGameCommand : Command
                 continue ;
             }
             
-            int row = (line[0] - 'A');
+            int row = line[0] - 'A';
 
             if (row >= GridSize)
             {
@@ -176,7 +165,7 @@ public class BattleshipsGameCommand : Command
 
             var segment = computerShips
                 .SelectMany(x => x.Segments)
-                .Where(s => s.X == x && s.Y == y && s.IsHit)
+                .Where(s => s.X == x && s.Y == y /*&& s.IsHit*/)
                 .FirstOrDefault();
             if (segment == null)
             {
@@ -208,30 +197,7 @@ public class BattleshipsGameCommand : Command
             {
                 Console.Write($"{GetMapCharacter(x, y, false)} ");
             }
-
-
             Console.WriteLine();
         }
     }
-}
-public class Ship
-{
-    public int Size { get; set; }
-    public bool IsSunk { get; set; }
-
-    public Segment[] Segments { get; set; } = [];
-}
-
-public class Segment
-{
-    public int X { get; set; }
-    public int Y { get; set; }
-    public bool IsHit { get; set; }
-}
-
-public record Attack
-{
-    public int X { get; set; }
-    public int Y { get; set; }
-
 }
