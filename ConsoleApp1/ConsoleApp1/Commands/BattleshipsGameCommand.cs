@@ -9,13 +9,15 @@ public class BattleshipsGameCommand : Command
 
     private const int GridSize = 9;
     Random rand = new Random();
-    List<Ship> ships = new List<Ship>();
+    List<Ship> playerShips = new List<Ship>();
     List<Ship> computerShips = new List<Ship>();
+    HashSet<Attack> playerAttacks = new HashSet<Attack>();
+    HashSet<Attack> computerAttacks = new HashSet<Attack>();
 
     public BattleshipsGameCommand(ApplicationState state, Guid parentId) : base(0, parentId)
     {
         this.state = state;
-        ships.Add(new Ship
+        playerShips.Add(new Ship
         {
             Size = 2,
             IsSunk = false,
@@ -49,12 +51,58 @@ public class BattleshipsGameCommand : Command
         {
             PrintGrids();
             var attack = GetAttack();
+            MakeAttack(attack, true);
 
         }
 
         Console.WriteLine("pick positions to place your 3 ships:");
         //talk about dependency injection
 
+    }
+
+    private void MakeAttack(Attack attack, bool isPlayerGrid)
+    {
+        if (isPlayerGrid)
+        {
+            if (playerAttacks.Contains(attack))
+            {
+                Console.WriteLine("you already attacked there!");
+                return;
+            }
+            
+            var segment = computerShips
+                .SelectMany(s => s.Segments)
+                .Where(s=> s.X == attack.X && s.Y == attack.Y)
+                .FirstOrDefault();
+
+            if (segment != null) 
+            {
+                segment.IsHit = true;
+                return;
+            }
+
+            playerAttacks.Add(attack);
+        }
+        else
+        {
+            if (computerAttacks.Contains(attack))
+            {
+                return;
+            }
+
+            var segment = playerShips
+                .SelectMany(s => s.Segments)
+                .Where(s => s.X == attack.X && s.Y == attack.Y)
+                .FirstOrDefault();
+
+            if (segment != null)
+            {
+                segment.IsHit = true;
+                return;
+            }
+
+            computerAttacks.Add(attack);
+        }
     }
 
     private Attack GetAttack()
@@ -71,7 +119,7 @@ public class BattleshipsGameCommand : Command
                 continue ;
             }
             
-            int row = (line[0] - GridSize);
+            int row = (line[0] - 'A');
 
             if (row >= GridSize)
             {
@@ -85,7 +133,7 @@ public class BattleshipsGameCommand : Command
             return new Attack
             {
                 X = row,
-                Y = int.Parse(line[1].ToString())
+                Y = int.Parse(line[1].ToString()) - 1
             };
 
         }
@@ -97,7 +145,12 @@ public class BattleshipsGameCommand : Command
     {
         if (isPlayerGrid)
         {
-            var segment = ships
+            if(computerAttacks.Contains(new Attack {X=x, Y=y}))
+            {
+                return "#";
+            }
+
+            var segment = playerShips
                  .SelectMany(x => x.Segments)
                  .Where(s => s.X == x && s.Y == y)
                  .FirstOrDefault();
@@ -116,6 +169,11 @@ public class BattleshipsGameCommand : Command
         }
         else
         {
+            if (playerAttacks.Contains(new Attack { X = x, Y = y }))
+            {
+                return "#";
+            }
+
             var segment = computerShips
                 .SelectMany(x => x.Segments)
                 .Where(s => s.X == x && s.Y == y && s.IsHit)
@@ -171,8 +229,9 @@ public class Segment
     public bool IsHit { get; set; }
 }
 
-public class Attack
+public record Attack
 {
     public int X { get; set; }
     public int Y { get; set; }
+
 }
