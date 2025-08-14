@@ -1,6 +1,7 @@
 ﻿using ConsoleApp1.Commands.BattleshipModels;
 using ConsoleApp1.Commands.Core;
 using ConsoleApp1.Services;
+using System.Text;
 
 namespace ConsoleApp1.Commands;
 
@@ -58,13 +59,13 @@ public class BattleshipsGameCommand : Command
                 Console.WriteLine("you already attacked there!");
                 return;
             }
-            
+
             var segment = computerShips
                 .SelectMany(s => s.Segments)
-                .Where(s=> s.X == attack.X && s.Y == attack.Y)
+                .Where(s => s.X == attack.X && s.Y == attack.Y)
                 .FirstOrDefault();
 
-            if (segment != null) 
+            if (segment != null)
             {
                 segment.IsHit = true;
                 return;
@@ -101,13 +102,13 @@ public class BattleshipsGameCommand : Command
             var line = Console.ReadLine();
             if (line == null)
             {
-                continue;
+                continue; // add validation 
             }
             if (line.Length != 2)
             {
-                continue ;
+                continue;
             }
-            
+
             int row = line[0] - 'A';
 
             if (row >= GridSize)
@@ -130,50 +131,47 @@ public class BattleshipsGameCommand : Command
 
     }
 
-    private string GetMapCharacter(int x, int y, bool isPlayerGrid)
+    private static List<string> RenderBoard(IEnumerable<Segment> segments, IEnumerable<Attack> attacks)
     {
-        if (isPlayerGrid)
+        var list = new List<string>();
+
+        for (var y = 0; y < GridSize; y++)
         {
-            if(computerAttacks.Contains(new Attack {X=x, Y=y}))
+            var sb = new StringBuilder();
+
+            for (int x = 0; x < GridSize; x++)
             {
-                return "#";
+                var segment = segments.Where(s => s.X == x && s.Y == y).FirstOrDefault();
+                if (segment is not null)
+                {
+                    if (segment.IsHit)
+                    {
+                        sb.Append("X ");
+                    }
+                    else
+                    {
+                        sb.Append("O ");
+                    }
+                    continue;
+                }
+
+                if (attacks.Any(a => a.X == x && a.Y == y))
+                {
+                    sb.Append("# ");
+                    continue;
+                }
+
+                sb.Append("⋅ ");
             }
 
-            var segment = playerShips
-                 .SelectMany(x => x.Segments)
-                 .Where(s => s.X == x && s.Y == y)
-                 .FirstOrDefault();
-
-            if (segment == null)
-            {
-                return "⋅";
-            }
-
-            if (segment.IsHit)
-            {
-                return "X";
-            }
-            return "O";
-
+            list.Add(sb.ToString());
         }
-        else
-        {
-            if (playerAttacks.Contains(new Attack { X = x, Y = y }))
-            {
-                return "#";
-            }
 
-            var segment = computerShips
-                .SelectMany(x => x.Segments)
-                .Where(s => s.X == x && s.Y == y /*&& s.IsHit*/)
-                .FirstOrDefault();
-            if (segment == null)
-            {
-                return "⋅";
-            }
-            return "X";
-        }
+
+        return list;
+
     }
+
 
     private void PrintGrids()
     {
@@ -181,23 +179,14 @@ public class BattleshipsGameCommand : Command
 
         Console.WriteLine($"  {numbers}      {numbers}");  // Column headers
 
-        for (int x = 0; x < GridSize; x++)
+        var player = RenderBoard(playerShips.SelectMany(x => x.Segments), computerAttacks);
+        var computer = RenderBoard(computerShips.SelectMany(x => x.Segments).Where(x => !x.IsHit), playerAttacks);
+
+        for (int y = 0; y < GridSize; y++)
         {
-            char row = (char)('A' + x);
-            Console.Write(row + " ");  // Row label
+            char row = (char)('A' + y);
 
-            for (int y = 0; y < GridSize; y++)
-            {
-                Console.Write($"{GetMapCharacter(x, y, true)} ");
-            }
-
-            Console.Write("     ");
-
-            for (int y = 0; y < GridSize; y++)
-            {
-                Console.Write($"{GetMapCharacter(x, y, false)} ");
-            }
-            Console.WriteLine();
+            Console.WriteLine($"{row} {player[y]}     {computer[y]}");
         }
     }
 }
