@@ -30,9 +30,21 @@ public class BattleshipsGameCommand : Command
         while (true)
         {
             PrintGrids();
-            var attack = GetAttack();
-            MakeAttack(attack, true);
+            var attack = AttackHandler.GetAttack(GridSize, [], []); // [] because its an empty array 
+            AttackHandler.MakeAttack(playerAttacks, attack, computerShips, "player");
 
+            if (computerShips.All(x => x.IsSunk == true))
+            {
+                Console.WriteLine("Player Won!!");
+            }
+
+            attack = AttackHandler.GetAttack(GridSize, playerShips, computerAttacks);
+            AttackHandler.MakeAttack(computerAttacks, attack, playerShips, "computer");
+
+            if (playerShips.All(x => x.IsSunk == true))
+            {
+                Console.WriteLine("PC Won!!");
+            }
         }
     }
 
@@ -50,96 +62,17 @@ public class BattleshipsGameCommand : Command
         computerAttacks.Clear();
     }
 
-    private void MakeAttack(Attack attack, bool isPlayerGrid)
-    {
-        if (isPlayerGrid)
-        {
-            if (playerAttacks.Contains(attack))
-            {
-                Console.WriteLine("you already attacked there!");
-                return;
-            }
 
-            var segment = computerShips
-                .SelectMany(s => s.Segments)
-                .Where(s => s.X == attack.X && s.Y == attack.Y)
-                .FirstOrDefault();
-
-            if (segment != null)
-            {
-                segment.IsHit = true;
-                return;
-            }
-
-            playerAttacks.Add(attack);
-        }
-        else
-        {
-            if (computerAttacks.Contains(attack))
-            {
-                return;
-            }
-
-            var segment = playerShips
-                .SelectMany(s => s.Segments)
-                .Where(s => s.X == attack.X && s.Y == attack.Y)
-                .FirstOrDefault();
-
-            if (segment != null)
-            {
-                segment.IsHit = true;
-                return;
-            }
-
-            computerAttacks.Add(attack);
-        }
-    }
-
-    private Attack GetAttack()
-    {
-        do
-        {
-            var line = Console.ReadLine();
-            if (line == null)
-            {
-                continue; // add validation 
-            }
-            if (line.Length != 2)
-            {
-                continue;
-            }
-
-            int row = line[0] - 'A';
-
-            if (row >= GridSize)
-            {
-                continue;
-            }
-
-            if (!char.IsNumber(line[1]) && !int.TryParse(line[1].ToString(), out _))
-            {
-                continue;
-            }
-            return new Attack
-            {
-                X = row,
-                Y = int.Parse(line[1].ToString()) - 1
-            };
-
-        }
-        while (true);
-
-    }
 
     private static List<string> RenderBoard(IEnumerable<Segment> segments, IEnumerable<Attack> attacks)
     {
         var list = new List<string>();
 
-        for (var y = 0; y < GridSize; y++)
+        for (int x = 0; x < GridSize; x++)
         {
             var sb = new StringBuilder();
 
-            for (int x = 0; x < GridSize; x++)
+            for (var y = 0; y < GridSize; y++)
             {
                 var segment = segments.Where(s => s.X == x && s.Y == y).FirstOrDefault();
                 if (segment is not null)
@@ -166,12 +99,8 @@ public class BattleshipsGameCommand : Command
 
             list.Add(sb.ToString());
         }
-
-
         return list;
-
     }
-
 
     private void PrintGrids()
     {
@@ -180,7 +109,7 @@ public class BattleshipsGameCommand : Command
         Console.WriteLine($"  {numbers}      {numbers}");  // Column headers
 
         var player = RenderBoard(playerShips.SelectMany(x => x.Segments), computerAttacks);
-        var computer = RenderBoard(computerShips.SelectMany(x => x.Segments).Where(x => !x.IsHit), playerAttacks);
+        var computer = RenderBoard(computerShips.SelectMany(x => x.Segments).Where(x => x.IsHit), playerAttacks);
 
         for (int y = 0; y < GridSize; y++)
         {
