@@ -13,9 +13,11 @@ namespace ConsoleApp1.Services
             ApplicationState state,
             ISentenceRepository sentenceRepository,
             ISentenceScoreRepository scoreRepository,
-            IFileService fileService)
+            IFileService fileService,
+            BulgarianRepository bulgarianRepository)
 
         {
+          //  var bulgarianRepository = new BulgarianRepository(fileService);
             commands.Add(new HelpCommand(this));
             commands.Add(new AddCommand(contactRepository,fileService));
             commands.Add(new PrintCommand(contactRepository, fileService));
@@ -25,7 +27,7 @@ namespace ConsoleApp1.Services
             commands.Add(new ExitCommand(state));
             commands.Add(new ClearCommand(this));
             commands.Add(new GamesFolderCommand(this, state, sentenceRepository, scoreRepository));
-
+            commands.Add(new BulgarianCommand(fileService, bulgarianRepository));
         }
         // internal bool ContainsKey(string command, Guid? parentId)
         public bool ContainsKey(string command, Guid? parentId)

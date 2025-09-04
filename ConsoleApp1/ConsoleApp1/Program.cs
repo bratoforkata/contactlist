@@ -10,7 +10,9 @@ FileService fileService = new FileService();
 ContactRepository contactRepository = new ContactRepository(fileService);
 ISentenceScoreRepository scoreRepository = new SentenceScoreRepository(fileService); 
 ISentenceRepository sentenceRepository = new SentenceRepository(fileService);
-CommandHandler commandHandler = new CommandHandler(contactRepository, state, sentenceRepository, scoreRepository, fileService);
+BulgarianRepository bulgarianRepository = new BulgarianRepository(fileService);
+CommandHandler commandHandler = new CommandHandler(contactRepository, state, sentenceRepository, scoreRepository, fileService, bulgarianRepository);
+
 
 Console.WriteLine(string.Join(", ", commandHandler.GetCommandKeys(null)));
 
